@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Review Guides</title>
+    {% load static %}
+
+    {% include 'snippets/header.html' %}
+
+</head>
+<body>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        .main{
+            min-height: 100vh;
+            height: 100%;
+        }
+
+    </style>
+    <div class="main">
+        {% block content %}
+        {% endblock content %}
+        {% include 'snippets/footer.html' %}
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+
+{% load static%}
+<style>
+    .header{
+        width: 100%;
+        height: 100vh;
+    }
+    .navbar{
+        width: 85%;
+        margin: auto;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .logo{
+        width: 100px;
+    }
+    .navbar ul li{
+        list-style: none;
+        display: inline-block;
+        margin: 0 20px;
+        color: black;
+        font-size: 20px;
+    }
+    .navbar ul li a{
+        text-decoration: none;
+        color: black;
+    }
+
+
+</style>
+    <div class="header">
+        <div class="navbar">
+            <img src="{% static 'photos/logo1.jpg' %}" class="logo">
+            <ul>
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'books' %}">Books</a></li>
+                <li><a href="{% url 'account' %}">{{request.user.username}}</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+    </div>

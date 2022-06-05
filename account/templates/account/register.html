@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .mainDiv{
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("/static/photos/background.jpg");
+        background-position: center;
+        background-size: cover;
+        position: absolute;
+    }
+    .loginBox{
+        width: 380px;
+        height: 495px;
+        position: relative;
+        margin: 6% auto;
+        background: whitesmoke;
+        padding: 5px;
+        overflow: hidden;
+
+    }
+    .buttonBox{
+        width: 220px;
+        margin: 15px auto;
+        position: relative;
+        border-radius: 30px;
+    }
+    .buttons{
+        padding: 12px 30px;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        outline: none;
+        position: relative;
+    }
+    #buttonColor{
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 110px;
+        height: 100%;
+        background: linear-gradient(to right, #abb1cf,#d1cbd4);
+        border-radius: 30px;
+        transition: .5s;
+    }
+    .titleLogo{
+        margin: 50px auto;
+        text-align: center;
+    }
+    .titleLogo img{
+        width: 150px;
+    }
+    .loginForm{
+        top: 100px;
+        position: absolute;
+        width: 280px;
+        margin-left:45px;
+        transition: .5s;
+    }
+    .inputField{
+        width: 100%;
+        padding: 10px 0;
+        margin: 5px 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-bottom: 1px solid #999;
+        outline: none;
+        background: transparent;
+    }
+    .submitButton{
+        width: 85%;
+        padding-top: 10px;
+        padding: 13px 30px;
+        cursor: pointer;
+        display: block;
+        margin: auto;
+        background: linear-gradient(to right, #abb1cf,#c5b9cd);
+        border: 0;
+        outline: none;
+        border-radius: 30px;
+    }
+    .imgButton{
+        padding: 10px 15px;
+    }
+    #login{
+        left: 50px;
+    }
+    #register{
+        left: 450px;
+    }
+    }
+</style>
+
+
+<div class="mainDiv">
+    <div class="loginBox">
+        <div class="titleLogo">
+            <h2>Register Account</h2>
+        </div>
+
+        <form class="loginForm" method="POST">
+            {% csrf_token %}
+            <input type="text" name="firstname" class="inputField" placeholder="Firstname" required>
+            <input type="text" name="lastname" class="inputField" placeholder="LastName" required>
+            <input type="text" name="username" class="inputField" placeholder="Username" required>
+            <input type="email" name="email" class="inputField" placeholder="Email" required>
+            <input type="password" name="password1" class="inputField" placeholder="Password" required>
+            <input type="password" name="password2" class="inputField" placeholder="Confirm Password" required>
+
+            {% for field in registration_form %}
+                {% for error in field.errors %}
+                <p style="color:red;">{{error}}</p>
+                {% endfor %}
+            {% endfor %}
+
+            {% if registration_form.non_field_errors %}
+                <div style="color:red">
+                    <p>{{registration_form.non_field_error}}</p>
+                </div>
+            {% endif %}
+
+            {% if success_message %}
+            <p style="color:green; text-align: center;">{{success_message}}</p>
+            {% endif %}
+
+            <br><br>
+            <button type="submit" class="submitButton" name="login" value="login_user">Register</button>
+        </form>
+    </div>
+</div>
+
+<h2>Register</h2>
+<form method="POST">
+    {% csrf_token %}
+
+    {% for field in registration_form %}
+        <p>
+            {{field.label_tag}}
+            {{field}}
+
+            {% if field.help_text %}
+                <small style="color:grey;">{{field.help_text}}</small>
+            {% endif %}
+
+            {% for error in field.errors %}
+                <p style="color:red;">{{error}}</p>
+            {% endfor %}
+        </p>
+    {% endfor %}
+    <button type="submit">Register</button>
+</form>
+
+{% endblock content %}

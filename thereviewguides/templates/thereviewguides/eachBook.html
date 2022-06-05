@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+    {% load static %}
+
+
+
+
+    .content{
+        position: absolute;
+        top:20%;
+        left: 8%;
+        color: black;
+        font-family: rockwell;
+        font-style: italic;
+        font-size: 250%;
+    }
+
+    .mainPage{
+        background-color: #F0F0F0;
+    }
+
+    footer{
+        background-color: black;
+        height: 50px;
+        color: whitesmoke;
+        text-align: center;
+        margin: auto;
+    }
+    .book_img{
+        width:400px;
+        height:500px;
+        float:left;
+    }
+    .book_list{
+        overflow: hidden;
+    }
+    .book_title{
+        float:right;
+
+    }
+    review{
+        margin-top:100px;
+    }
+
+    .questionList{
+        width: 90%;
+        height: 180px;
+        background: white;
+       margin: auto;
+       margin-bottom:20px;
+       border-radius: 10px;
+       box-shadow: -10px -10px 10px rgba(255, 255, 255, 0.2), 15px 15px 15px rgba(0,0,0,0.1);
+
+    }
+    .right hr{
+        width: 1000px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left:30px;
+        border-top:2px solid rgb(0, 0, 0);
+    }
+</style>
+<div>
+    <img src="{{books.img_url}}" style="width:20%;margin:auto;display:flex;">
+</div>
+<div style="text-align: center;padding:1%;">
+    <p style="font-family: Georgia;font-size:3vw;margin:10px;">{{books.title}}</p>
+    <p style="font-size: 2vw;font-family: Georgia;font-style:normal">By: {{books.author}}</p>
+</div>
+<div>
+    <p style="text-align: justify;font-family:Baskerville Old Face;padding:1% 5%;font-size: 140%;">{{books.description}}</p>
+</div>
+<br><br>
+<div style="border-top:solid black 5px;padding:1% 5%;">
+    <br><br>
+    <p style="margin-bottom:1%;font-family: Baskerville Old Face;font-size:25px;">Comment</p>
+    <div>
+        <form class="post-form" action="" id="usrform" method="POST">
+            {% csrf_token %}
+
+            <textarea type="textarea"  name="comment" class="inputQuestion"  style="width:100%;" rows="6" placeholder="Write comment here..."></textarea>
+
+            <label class="form-label" style="font-family: Baskerville Old Face;font-size:25px;">Rating</label>
+            <input type="range"   id="rangeInput" name="rating" min="0" max="10" value="0" step="0.5" oninput="amount.value=rangeInput.value">
+            <output name="amount" id="amount" for="rangeInput">0</output>
+
+            <br><br>
+            <button style="width:100px;height: 40px;background: black;color: whitesmoke;padding: 0 15px;letter-spacing: 1.2px;border: none;cursor: pointer;" type="submit" class="btn btn-primary">Submit</button>
+            <br><br>
+        </form>
+    </div>
+</div>
+
+<div style="background-color: #F0F0F0;">
+    <h1 style="background-color: black; color: white;font-weight:500;font-size:2.2rem;padding:10px 20px;margin: 30px 0px;display: flex;justify-content: center;">Comments</h1>
+
+    <br><br>
+    {% for i in review %}
+    {% if i.book_title == books %}
+    <div>
+        <div class="questionList">
+            <div class="right">
+                <br><br>
+                <h2 style="margin-left:30px;">{{ i.username }} ({{ i.rating }})</h2>
+                <hr style="display: inline-block;width:80%;">
+                <br>
+                <p style="margin-left:30px;">{{ i.comment }} </p>
+            </div>
+            <br><br>
+            <a style="margin-left:30px;padding:.5%;border-radius:3px;color:white;background-color:red;" href="{% url 'destroyReview' i.id %}">Delete</a>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    <br><br>
+</div>
+
+<script>
+if ( window.history.replaceState ) {
+window.history.replaceState( null, null, window.location.href );
+}
+</script>
+
+{% endblock content %}
